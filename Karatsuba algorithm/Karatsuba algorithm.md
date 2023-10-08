@@ -33,13 +33,13 @@ $$
 
 Попробуем перемножить два числа $u$, $v$.
 
-$$
+$`$
 \begin{align}
 \Large u\cdot v\normalsize= (u_{0}\cdot p^{n/2}+u_{1}) \cdot (v_{0}\cdot p^{n/2}+v_{1})= \\
 = u_{0}v_{0}\cdot p^n+(u_{0}v_{1} \cdot p^{n/2} +u_{1}v_{0}\cdot p^{n/2})+u_{1}v_{1}= \\
 =u_{0}v_{0}\cdot p^n +  p^{n/2}\cdot(\;\boxed{u_{0}v_{1} + u_{1}v_{0}}\;) + u_{1}v_{1}
 \end{align}
-$$
+$`$
 
 Теперь обозначим
 
