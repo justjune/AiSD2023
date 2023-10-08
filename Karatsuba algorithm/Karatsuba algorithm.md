@@ -19,11 +19,10 @@ a=678&=&8\cdot 10^0&+&7\cdot 10^1&+&6\cdot 10^2 \\
 $$
 
 ### Идея.
+
 Число можно разбить пополам.
 
-$$
-a=\underbracket{578}_{c}\underbracket{277}_{d}=c\cdot 10^3+d
-$$
+$`$ a = \underbracket{578}_{c} \underbracket{277}_{d}= c \cdot 10^3+d $`$
 
 В общем виде. Число $a$ с разрядностью $n=2k \quad k \in \mathbb{N}$
 Можно записать как
@@ -52,7 +51,7 @@ z=(u_{0}+u_{1})(v_{0}+v_{1})
 \end{matrix}
 $$
 
-Заметим, что $z-x-y=\underbracket{u_{0}v_{0}+u_{0}v_{1}+u_{1}v_{0}+u_{1}v_{1}}_{z}-\underbracket{u_{0}v_{0}}_{x}-\underbracket{u_{1}v_{1}}_{y}=\boxed{u_{0}v_{1}+u_{1}v_{0}}$  
+Заметим, что $`z-x-y=\underbracket{u_{0}v_{0}+u_{0}v_{1}+u_{1}v_{0}+u_{1}v_{1}}_{z}-\underbracket{u_{0}v_{0}}_{x}-\underbracket{u_{1}v_{1}}_{y}=\boxed{u_{0}v_{1}+u_{1}v_{0}}`$  
 т.е
 
 $$
