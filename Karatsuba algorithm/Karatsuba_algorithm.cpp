@@ -69,16 +69,16 @@ class LongValue{
             if (index < length) {
                 return values[index];
             } else {
-            // Handle index out of bounds gracefully
-            return -1;  // You can modify this to throw an exception or handle it differently
+            
+            return -1;  
         }
 }
 };
 
 int main() {
     // Пример создания объектов LongValue
-    int array1[] = {0, 1, 2, 3};   // число 321
-    int array2[] = {0, 1, 2, 3};   // число 654
+    int array1[] = {1, 2, 3};   // число 321
+    int array2[] = {4, 5, 6};   // число 654
 
     LongValue num1(array1, 4);
     LongValue num2(array2, 4);
