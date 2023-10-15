@@ -33,7 +33,7 @@ class LongValue{
         ~LongValue() {
             delete[] values;
         }
-        size_t getLength(){
+        size_t getLength() const{
             return length;
         }
         void setSign(int i){
@@ -43,6 +43,7 @@ class LongValue{
         // Оператор сложения
         LongValue operator+(const LongValue& other) const {
             size_t maxLength = std::max(length, other.length);
+            
             int* result = new int[maxLength + 1]; // +1 на случай, если сложение вызовет перенос разряда
             std::memset(result, 0, sizeof(int) * (maxLength + 1)); // Инициализация массива результата нулями
             int s=1;
@@ -58,7 +59,7 @@ class LongValue{
                     digitSum += other.values[i]*other.sign;
                 }
                 s=1;
-
+                
                 if(digitSum<0){
                     s=-1;
                     digitSum=10+digitSum;
@@ -93,21 +94,31 @@ class LongValue{
             return res;
         }
 
-
+        size_t CountLeadingZeros(const LongValue& a) const{
+            size_t res=0;
+            for(size_t i = a.getLength()-1; i>=0; i--){
+                //std::cout<<result[i];
+                if(a[i]==0 and i>0){res++;}
+                else{break;}
+            }
+            return res;
+        }
         // Оператор сравнения
         bool operator==(const LongValue& other) const {
-            if (length != other.length) {
+            size_t Zeros1=CountLeadingZeros(other);
+            size_t Zeros2=CountLeadingZeros(*this);
+            if (length-Zeros2 != other.length-Zeros1) {
                 return false;
             }
             if(sign != other.sign){
-                for (size_t i = 0; i < length; ++i) {
+                for (size_t i = 0; i < length-Zeros2; ++i) {
                     if ((values[i] != other.values[i]) or values[i]!=0) {
                         return false;
                     }
                 }
             }
             else{
-                for (size_t i = 0; i < length; ++i) {
+                for (size_t i = 0; i < length-Zeros2; ++i) {
                     if (values[i] != other.values[i]) {
                         return false;
                     }
@@ -151,7 +162,8 @@ void Test(LongValue& res, LongValue& answer, bool check=true){
     std::cout<<'\n';
 }
 int main() {
-    LongValue a1({4,5,3},1);
+    LongValue a1({4,5,3,0,0,0,0},1);
+    LongValue la1({4,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},1);
     LongValue na1({4,5,3},-1);
 
     LongValue b1({4,7,3,3,6},1);
@@ -164,6 +176,7 @@ int main() {
     LongValue ns1({9,7},-1);
     
     Test(a1,a1,1);
+    Test(la1,a1,1);
     Test(ns1,ns1,1);
     Test(a1,na1,0);
     Test(a1,ns1,0);
@@ -179,5 +192,9 @@ int main() {
     LongValue res3=a1+na1;
     LongValue answer3({0},1);
     Test(res3, answer3,1);
+
+    LongValue res4=s1+nb1;
+    LongValue answer4({5,9,2,3,6},-1);
+    Test(res4, answer4,1);
     return 0;
 }
