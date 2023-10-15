@@ -139,7 +139,7 @@ class LongValue{
 
 
 
-// ... Ваш код LongValue ...
+
 void Test(LongValue& res, LongValue& answer, bool check=true){
     std::cout<< "res: " << res <<", "<< "answer: "<<answer;
     if((res == answer)==check){ 
