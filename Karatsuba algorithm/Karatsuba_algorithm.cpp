@@ -74,7 +74,7 @@ class LongValue{
             size_t resultLength=maxLength+1;
             for(size_t i=resultLength-1; i>=0; i--){
                 //std::cout<<result[i];
-                if(result[i]==0){resultLength--;}
+                if(result[i]==0 and i>0){resultLength--;}
                 else{break;}
             }
             
@@ -177,7 +177,7 @@ int main() {
     Test(res2, answer2,1);
 
     LongValue res3=a1+na1;
-    //LongValue answer3({0,0,0},1);
-    //Test(res3, answer3,1);
+    LongValue answer3({0},1);
+    Test(res3, answer3,1);
     return 0;
 }
