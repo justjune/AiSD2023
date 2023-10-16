@@ -62,8 +62,7 @@ class LongValue{
                 
                 if(digitSum<0){
                     s=-1;
-                    digitSum=10+digitSum;
-                    result[i + 1]=result[i + 1]-1;
+                    digitSum=-digitSum;
                 }
                 // Вычисление текущей цифры результата и перенос разряда
                
