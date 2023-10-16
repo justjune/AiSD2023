@@ -3,7 +3,7 @@
 *.o 
 *.a 
 *.so 
- 
+*.
 # Java class files 
 *.class 
  
@@ -11,3 +11,4 @@
 *.pyc 
 *.pyo 
 __pycache__/*
+
