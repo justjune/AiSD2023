@@ -40,6 +40,16 @@ class LongValue{
             sign = i;
         }
         
+        size_t CountLeadingZeros(const LongValue& a) const{
+            size_t res=0;
+            for(size_t i = a.getLength()-1; i>=0; i--){
+                //std::cout<<result[i];
+                if(a[i]==0 and i>0){res++;}
+                else{break;}
+            }
+            return res;
+        }
+
         // Оператор сложения
         LongValue operator+(const LongValue& other) const {
             size_t maxLength = std::max(length-CountLeadingZeros(*this), other.length-CountLeadingZeros(other));
@@ -52,13 +62,17 @@ class LongValue{
                 
                 // Если есть цифра в текущем объекте, добавляем её
                 if (i < length) {
-                    digitSum += values[i]*sign;
+                     digitSum += values[i]*sign;
                 }
-                // Если есть цифра в другом объекте, добавляем её
+                    // Если есть цифра в другом объекте, добавляем её
                 if (i < other.length) {
                     digitSum += other.values[i]*other.sign;
                 }
-                s=1;
+
+                
+                if(digitSum>0 and sign!=other.sign){digitSum=10-digitSum; result[i+1]=result[i+1]+1;}
+            
+                
                 
                
                 // Вычисление текущей цифры результата и перенос разряда
@@ -66,25 +80,30 @@ class LongValue{
                 
                 result[i] = digitSum % 10;
                 result[i + 1] = result[i + 1] + (digitSum / 10);
-
-                std::cout<<result[i]<< ' ';
             }
-            std::cout<<'\n';
-        // Устанавливаем знак результата
+           
+        
         
             
             // Проверка на ведущий ноль
             size_t resultLength=maxLength+1;
             for(size_t i=resultLength-1; i>=0; i--){
-                //std::cout<<result[i];
+             
                 if(result[i]==0 and i>0){resultLength--;}
                 else{break;}
             }
-            int resultSign = (result[resultLength - 1] == 0) ? 1 : (result[resultLength - 1] < 0 ? -1 : 1);
-            
 
+            if(result[resultLength-1]<0){s=-1;}
+            else{s=1;} 
+            
+            
+            for(size_t i=resultLength;i>0;i--){
+                
+                
+                result[i-1]=abs(result[i-1]);
+            }
             // Создание нового объекта LongValue с результатом сложения
-            LongValue sum(result, resultLength, resultSign);
+            LongValue sum(result, resultLength, s);
 
             // Освобождение выделенной памяти
             delete[] result;
@@ -97,15 +116,7 @@ class LongValue{
             return res;
         }
 
-        size_t CountLeadingZeros(const LongValue& a) const{
-            size_t res=0;
-            for(size_t i = a.getLength()-1; i>=0; i--){
-                //std::cout<<result[i];
-                if(a[i]==0 and i>0){res++;}
-                else{break;}
-            }
-            return res;
-        }
+        
         // Оператор сравнения
         bool operator==(const LongValue& other) const {
             size_t l1=length-CountLeadingZeros(*this);
@@ -232,7 +243,11 @@ int main() {
     LongValue s1({9,7},1);
     LongValue ns1({9,7},-1);
 
-
+    LongValue q1({0,0,0,0,0,0,0,1},1);
+    LongValue q2({1,0,0,0,0,0,0,1},-1);
+    LongValue resq=q2+q1;
+    std::cout<<resq<<std::endl;
+/*
     std::cout << (a1>a1==0)<<'\n';
     std::cout << (na1>nla1==0)<<'\n';
     std::cout << (na1<nla1==0)<<'\n';
@@ -249,13 +264,13 @@ int main() {
     std::cout << (a1>=s1==1)<<'\n';
     std::cout << (d1<=s1==1)<<'\n';
     std::cout << (nd1<=na1==0)<<'\n';
-
+    std::cout << '\n';
     Test(a1,a1,1);
     Test(la1,a1,1);
     Test(ns1,ns1,1);
     Test(a1,na1,0);
     Test(a1,ns1,0);
-
+    std::cout << '\n';
     LongValue res1=a1+a1;
     LongValue answer1({8,0,7},1);
     Test(res1, answer1,1);
@@ -275,6 +290,7 @@ int main() {
     LongValue res7=nb1+nb1;
     LongValue answer7({8,4,7,6,2,1},-1);
     Test(res7, answer7,1);
+*/
 /*
     LongValue res5=nb1+d1;
     LongValue answer5({0,7,3,3,6},-1);
