@@ -17,9 +17,17 @@ class LongValue{
         LongValue() : values(nullptr), length(0), sign(1) {}  // конструктор по умолчанию
 
         LongValue(int *x, size_t l,int s=1 ) : values(new int[l]), length(l), sign(s) {
+            
             for (size_t i = 0; i < length; ++i) {
                 values[i] = x[i];
+               
             } 
+        }
+        LongValue(const LongValue& other) : length(other.length), sign(other.sign) {
+            values = new int[length];
+            for (size_t i = 0; i < length; ++i) {
+                values[i] = other.values[i];
+            }
         }
         LongValue(const std::initializer_list<int>& ilist, int s = 1) : length(ilist.size()), sign(s) {
             values = new int[length];
@@ -27,6 +35,20 @@ class LongValue{
             for (int value : ilist) {
                 values[i++] = value;
             }
+        }
+        LongValue& operator=(const LongValue& a) {
+            if (this != &a) {  
+                delete[] values;  
+
+                length = a.length;
+                sign = a.sign;
+                values = new int[length];
+
+                for (size_t i = 0; i < length; ++i) {
+                    values[i] = a.values[i];
+                }
+            }
+            return *this;
         }
 
         // Деструктор для освобождения выделенной памяти
@@ -70,7 +92,10 @@ class LongValue{
                 }
 
                 
-                if(digitSum>0 and sign!=other.sign){digitSum=10-digitSum; result[i+1]=result[i+1]+1;}
+                if(digitSum>0 and sign!=other.sign){ // 
+                    digitSum=10-digitSum;
+                    result[i+1]=result[i+1]+1;
+                }
             
                 
                 
@@ -98,8 +123,6 @@ class LongValue{
             
             
             for(size_t i=resultLength;i>0;i--){
-                
-                
                 result[i-1]=abs(result[i-1]);
             }
             // Создание нового объекта LongValue с результатом сложения
@@ -111,7 +134,7 @@ class LongValue{
             return sum;
         }
         LongValue operator-(const LongValue& other) const {
-            LongValue res(other.values, other.sign, other.sign*-1);
+            LongValue res(other.values, other.length, other.sign*-1);
             res=res+(*this);
             return res;
         }
@@ -200,6 +223,61 @@ class LongValue{
             } 
             else { return -1; }
         }
+        LongValue Slice(size_t n, size_t m, bool ZeroIgnore = true) {
+            size_t l = (*this).length;
+            if (ZeroIgnore) {
+                l = l - CountLeadingZeros(*this);
+            }
+            if (m + n <= l) {
+                LongValue res((*this).values + m, l - m - n, (*this).sign);
+                return res;
+                }
+            else {
+                LongValue res(nullptr, 0, (*this).sign);  // You might want to reconsider passing nullptr
+                return res;
+            }
+        }
+        void AddLeadingZero(){
+            if((*this).length%2!=0){
+                (*this)=LongValue((*this).values,(*this).length+1,(*this).sign);
+            }
+            
+        }
+        void AddZero(size_t n){
+              
+            int* v = new int[length+n];
+
+                for (size_t i = 0; i < length+n; ++i) {
+                    if(i<n){
+                       v[i]=0; 
+                    }
+                    else{
+                        v[i] = (*this).values[i-n];
+                    }
+                }
+            (*this)=LongValue(v,length+n,sign);
+            //delete[] values;
+            
+            
+        }
+        LongValue operator*(const LongValue& other) const {
+            LongValue A=(*this);
+            LongValue B=other;
+            A.AddLeadingZero();
+            B.AddLeadingZero();
+            
+            LongValue A1=A.Slice(0,A.getLength()/2);
+            LongValue A2=A.Slice(A.getLength()/2,0);
+            LongValue B1=A.Slice(0,B.getLength()/2);
+            LongValue B2=A.Slice(B.getLength()/2,0);
+
+            LongValue P1 = (A1 * B1);
+            LongValue P2 = A2 * B2;
+            LongValue P3 = (A1 + A2) * (B1 + B2);
+
+        }
+
+        
 
         friend std::ostream& operator<<(std::ostream& os, const LongValue& value) {
             if(value.sign==1){ os << "+";}
@@ -228,14 +306,14 @@ void Test(LongValue& res, LongValue& answer, bool check=true){
 
 
 int main() {
-    
+    /*
     LongValue a1({4,5,3,0,0,0,0},1);
     LongValue la1({4,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},1);
     LongValue nla1({4,5,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},-1);
     LongValue na1({4,5,3},-1);
 
     LongValue b1({4,7,3,3,6},1);
-    LongValue nb1({4,7,3,3,6},-1);
+    LongValue nb1({4,7,3,3,9},-1);
 
     LongValue d1({4},1);
     LongValue nd1({4},-1);
@@ -247,7 +325,7 @@ int main() {
     LongValue q2({1,0,0,0,0,0,0,1},-1);
     LongValue resq=q2+q1;
     std::cout<<resq<<std::endl;
-/*
+
     std::cout << (a1>a1==0)<<'\n';
     std::cout << (na1>nla1==0)<<'\n';
     std::cout << (na1<nla1==0)<<'\n';
@@ -290,7 +368,14 @@ int main() {
     LongValue res7=nb1+nb1;
     LongValue answer7({8,4,7,6,2,1},-1);
     Test(res7, answer7,1);
-*/
+    */
+    LongValue g({2,3,4,5,6},1);
+    
+    std::cout<<g<<'\n';
+    //std::cout<<g.Slice(1,2,false) << '\n';
+    //std::cout<<g.Slice(2,2) << '\n';
+    
+
 /*
     LongValue res5=nb1+d1;
     LongValue answer5({0,7,3,3,6},-1);
