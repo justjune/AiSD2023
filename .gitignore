@@ -10,4 +10,6 @@
 *.pyc 
 *.pyo 
 __pycache__/*
-
+temp*
+!*.cpp
+*
