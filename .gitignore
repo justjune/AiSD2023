@@ -6,10 +6,10 @@
 # Java class files 
 *.class 
 .vscode
+build
 # Python compiled files 
 *.pyc 
 *.pyo 
 __pycache__/*
-temp*
 !*.cpp
 
