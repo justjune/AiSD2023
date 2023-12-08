@@ -1,8 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest/doctest.h"
-#include "bubblesort.cpp"
+#include "BubbleSort.cpp"
 #include <initializer_list>
-#include "../Karatsuba algorithm/Karatsuba_algorithm.cpp"
 #include <string>
 
 TEST_CASE("Bubble Sort for Karatsuba_algorithm::LongValue") {
